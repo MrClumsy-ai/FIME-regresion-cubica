@@ -15,3 +15,13 @@ es un proceso mediante el cual, dado un conjunto de pares de puntos (xi, yi), se
 4. resolver el sistema de ecuaciones y encontrar `a`, `b`, `c` y `d`
 5. sustituir `a`, `b`, `c` y `d` en la ecuacion `y = ax^3 + bx^2 + cx + d`
 6. calcular estimacion del modelo, asi como el coeficiente de determinacion `R^2`
+
+# ejemplo
+obtener los valores de `x` y `y`
+| x | y |
+| --------------- | --------------- |
+| -2 | 3 |
+| -1 | 0 |
+| -0 | 2 |
+| 1 | 4 |
+| 2 | 4 |
