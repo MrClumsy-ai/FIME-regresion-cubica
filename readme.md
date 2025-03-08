@@ -44,6 +44,6 @@ obtener los valores de `x` y `y`
 | 1 | 4 |1  | 1   |1    | 1  | 1   | 4  | 4    | 4    |
 | 2 | 4 |4  | 8   |16    | 32  | 64   | 8  | 16    | 32    |
 
-|SUMA|SUMA|SUMA|SUMA|SUMA|SUMA|SUMA|SUMA|SUMA|SUMA|
+|sum(x)|sum(y)|sum(x^2)|sum(x^3)|sum(x^4)|sum(x^5)|sum(x^6)|sum(x * y)|sum(x^2 * y)|sum(x^3 * y)|
 | - | - | --- | --- | --- | --- | --- | --- | --- | ---- |
 |0  |13|10|0|34|0|130|6|32|12|
