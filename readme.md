@@ -64,3 +64,15 @@ a*sum(xi^6) + b * sum(xi^5) + c * sum(xi^4) + d * sum(xi^3) = sum(xi ^ 3 * yi)  
 0a + 34b + 0c + 10d = 32
 130a + 0b + 34c + 0d = 12
 ```
+
+## paso 4: resolver el sistema de ecuaciones
+este paso me lo voy a adelantar, pero lo puedes hacer con cualquier metodo de ecuaciones lineales (montante, gauss-jordan, eliminacion gaussiana, gauss-seidel o jacobi)
+```
+a = -0.583
+b = 0.429
+c = 2.583
+d = 1.743
+```
+
+## paso 5: sustituir `a`, `b`, `c` y `d` en la ecuacion `y = ax^3 + bx^2 + cx + d`
+`y = -0.583x^3 + 0.429x^2 + 2.583x + 1.743`
