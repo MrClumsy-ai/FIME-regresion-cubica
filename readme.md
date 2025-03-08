@@ -51,9 +51,16 @@ obtener los valores de `x` y `y`
 |0  |13|10|0|34|0|130|6|32|12|
 
 ## paso 3: con `n` numero de datos, generar un sistema de 4x4 ecuaciones, sustituyendo los valores de las sumatorias del paso 2 en:
+n aqui son 5, por la cantidad de datos que proporciono el ejercicio al principio
 ```
 a*sum(xi^3) + b * sum(xi^2) + c + nd = sum(yi)                                      (ecuacion 1)
 a*sum(xi^4) + b * sum(xi^3) + c * sum(xi^2) + d * sum(xi) = sum(xi * yi)            (ecuacion 2)
 a*sum(xi^5) + b * sum(xi^4) + c * sum(xi^3) + d * sum(xi^2) = sum(xi ^ 2 * yi)      (ecuacion 3)
 a*sum(xi^6) + b * sum(xi^5) + c * sum(xi^4) + d * sum(xi^3) = sum(xi ^ 3 * yi)      (ecuacion 4)
+```
+```
+0a + 10b + c + 5d = 13
+34a + 0b + 10c + 0d = 6
+0a + 34b + 0c + 10d = 32
+130a + 0b + 34c + 0d = 12
 ```
