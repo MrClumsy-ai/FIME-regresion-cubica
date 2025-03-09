@@ -4,21 +4,21 @@ fn main() {
 
 struct SistemaDeEcuaciones {
     size: usize,
-    ecuaciones: Vec<Vec<f64>>,
-    igualdades: Vec<f64>,
+    equations: Vec<Vec<f64>>,
+    equalities: Vec<f64>,
 }
 
 impl SistemaDeEcuaciones {
     fn new(size: usize) -> Self {
         SistemaDeEcuaciones {
             size,
-            ecuaciones: vec![vec![0.0; size]; size],
-            igualdades: vec![0.0; size],
+            equations: vec![vec![0.0; size]; size],
+            equalities: vec![0.0; size],
         }
     }
-    fn fill(&mut self, ecuaciones: Vec<Vec<f64>>, igualdades: Vec<f64>) {
-        self.ecuaciones = ecuaciones;
-        self.igualdades = igualdades;
+    fn fill(&mut self, equations: Vec<Vec<f64>>, equalities: Vec<f64>) {
+        self.equations = equations;
+        self.equalities = equalities;
     }
     fn show(&self) {
         let char_arr = [
@@ -27,35 +27,43 @@ impl SistemaDeEcuaciones {
         ];
         for i in 0..self.size {
             for j in 0..self.size {
-                print!("{}{} + ", self.ecuaciones[i][j], char_arr[j % 26]);
+                print!("{}{} + ", self.equations[i][j], char_arr[j % 26]);
             }
-            println!("{}", self.igualdades[i]);
+            println!("{}", self.equalities[i]);
         }
     }
-    fn gauss_seidel(&self) -> Option<Vec<f64>> {
-        let margen_de_error = 0.001;
-        let mut prev = vec![0.0; self.size];
-        let mut curr: Vec<f64> = Vec::new();
-        for i in 1..100 {
-            println!("{}, prev: {:?}, curr: {:?}", i, &prev, &curr);
+    fn montante(&mut self) {
+        self.organize();
+        let mut pivote = 1.0;
+        let mut next_pivote: f64;
+        for i in 0..self.size {
+            println!("iteration: {i}");
+            next_pivote = self.equations[i][i];
             for j in 0..self.size {
-                // debug start
-                let char_arr = [
-                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-                    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                ];
-                println!("iterating: {}", char_arr[j % 26]);
-                // debug end
+                //
             }
-            for i in 0..self.size {
-                if (prev[i] - curr[i]).abs() > margen_de_error {
-                    prev = curr.clone();
+            pivote = next_pivote;
+        }
+    }
+    fn organize(&mut self) {
+        for i in 0..self.size {
+            println!();
+            if self.equations[i][i] != 0.0 {
+                continue;
+            }
+            for j in 0..self.size {
+                // skip itself
+                if i == j {
                     continue;
                 }
+                if self.equations[j][i] != 0.0 {
+                    println!("swapped");
+                    self.equations.swap(j, i);
+                    break;
+                }
             }
-            return Some(curr);
+            self.show();
         }
-        None
     }
 }
 
@@ -100,19 +108,6 @@ fn cubicas() {
         print!("{sum}\t");
     }
     println!("\n\npaso 3:");
-    // println!("{}a + {}b + c + {n}d = {}", sums[3], sums[2], sums[1]);
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[4], sums[3], sums[2], sums[0], sums[7]
-    // );
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[5], sums[4], sums[3], sums[2], sums[8]
-    // );
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[6], sums[5], sums[4], sums[3], sums[9]
-    // );
     let mut s = SistemaDeEcuaciones::new(4);
     s.fill(
         vec![
@@ -124,5 +119,6 @@ fn cubicas() {
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
     s.show();
-    s.gauss_seidel();
+    println!("\npaso 4:");
+    s.montante();
 }
