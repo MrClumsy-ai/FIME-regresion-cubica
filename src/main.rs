@@ -44,37 +44,56 @@ impl SistemaDeEcuaciones {
     fn montante(&mut self) {
         self.organize();
         let mut pivote = 1.0;
+        let mut prev_equations = self.equations.clone();
+        let mut prev_equalities = self.equalities.clone();
         for i in 0..self.size {
-            println!("iteration: {i}");
+            println!("\niteration: {i}");
             let next_pivote = self.equations[i][i];
-            for j in 0..self.size {
-                if i == j {
-                    continue;
+            println!("next pivote 49: {}", next_pivote);
+            for column in 0..self.size + 1 {
+                for row in 0..self.size {
+                    // skips itself
+                    if column == row && column == i {
+                        continue;
+                    }
+                    // every item in the same column as the pivote, set to 0
+                    // and skip the operations
+                    else if column == i {
+                        println!("setting to 0: {:?}", self.equations[column][row]);
+                        self.equations[column][row] = 0.0;
+                        continue;
+                    }
+                    // equalities
+                    if column == self.size {
+                        println!("equality {:?}", self.equalities[row]);
+                    }
+                    //equations
+                    else {
+                        println!("equation: {:?}", self.equations[column][row]);
+                    }
                 }
-                // TODO!
             }
+            self.equations = prev_equations.clone();
+            self.equalities = prev_equalities.clone();
             pivote = next_pivote;
         }
     }
 
     fn organize(&mut self) {
         for i in 0..self.size {
-            println!();
             if self.equations[i][i] != 0.0 {
                 continue;
             }
             for j in 0..self.size {
-                // skip itself
+                // skips itself
                 if i == j {
                     continue;
                 }
                 if self.equations[j][i] != 0.0 {
-                    println!("swapped");
                     self.equations.swap(j, i);
                     break;
                 }
             }
-            self.show();
         }
     }
 }
@@ -130,7 +149,8 @@ fn cubicas() {
         ],
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
-    s.show();
     println!("\npaso 4:");
+    s.organize();
+    s.show();
     s.montante();
 }
