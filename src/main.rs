@@ -11,10 +11,14 @@ fn cubicas() {
     let n = x.len();
     let mut results: Vec<Vec<f64>> = Vec::new();
     let mut sums: Vec<f64> = vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    println!("paso 1:");
+    println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
+    println!("------------------------------------------------------------------------------");
     for i in 0..n {
         results.push(Vec::new());
         sums[0] += x[i];
         sums[1] += y[i];
+        print!("{}\t{}\t", x[i], y[i]);
         for j in 0..8 {
             let remainder = j % 8;
             results[i].push(match remainder {
@@ -29,20 +33,28 @@ fn cubicas() {
                 _ => panic!("ERRORRRRRRR!!!!"),
             });
             sums[j + 2] += results[i][j];
-        }
-    }
-    println!("paso 1:");
-    println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
-    for (i, row) in results.iter().enumerate() {
-        print!("{}\t{}\t", x[i], y[i]);
-        for element in row {
-            print!("{element}\t");
+            print!("{}\t", results[i][j]);
         }
         println!();
     }
-    println!("paso 2:");
-    for sum in sums {
+    println!("\npaso 2:");
+    println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
+    for sum in &sums {
         print!("{sum}\t");
     }
-    println!();
+    println!("\n\npaso 3:");
+    // a*x^3 + b*x^2 + c + dn = y
+    println!("{}a + {}b + c + {n}d = {}", sums[3], sums[2], sums[1]);
+    println!(
+        "{}a + {}b + {}c + {}d = {}",
+        sums[4], sums[3], sums[2], sums[0], sums[7]
+    );
+    println!(
+        "{}a + {}b + {}c + {}d = {}",
+        sums[5], sums[4], sums[3], sums[2], sums[8]
+    );
+    println!(
+        "{}a + {}b + {}c + {}d = {}",
+        sums[6], sums[5], sums[4], sums[3], sums[9]
+    );
 }
