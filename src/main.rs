@@ -16,10 +16,18 @@ impl SistemaDeEcuaciones {
             equalities: vec![0.0; size],
         }
     }
+
     fn fill(&mut self, equations: Vec<Vec<f64>>, equalities: Vec<f64>) {
+        if equations.len() != equalities.len() {
+            panic!("the length of the equations and equalities don't match");
+        }
+        if equations.len() != self.size || equalities.len() != self.size {
+            panic!("the length doesn't match the new function");
+        }
         self.equations = equations;
         self.equalities = equalities;
     }
+
     fn show(&self) {
         let char_arr = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
@@ -32,19 +40,23 @@ impl SistemaDeEcuaciones {
             println!("{}", self.equalities[i]);
         }
     }
+
     fn montante(&mut self) {
         self.organize();
         let mut pivote = 1.0;
-        let mut next_pivote: f64;
         for i in 0..self.size {
             println!("iteration: {i}");
-            next_pivote = self.equations[i][i];
+            let next_pivote = self.equations[i][i];
             for j in 0..self.size {
-                //
+                if i == j {
+                    continue;
+                }
+                // TODO!
             }
             pivote = next_pivote;
         }
     }
+
     fn organize(&mut self) {
         for i in 0..self.size {
             println!();
