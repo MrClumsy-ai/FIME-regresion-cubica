@@ -46,9 +46,12 @@ impl SistemaDeEcuaciones {
                 ];
                 println!("iterating: {}", char_arr[j % 26]);
                 // debug end
+                for k in 0..self.size {
+                    //todo
+                }
             }
-            for i in 0..self.size {
-                if (prev[i] - curr[i]).abs() > margen_de_error {
+            for j in 0..self.size {
+                if (prev[j] - curr[j]).abs() > margen_de_error {
                     prev = curr.clone();
                     continue;
                 }
@@ -100,19 +103,6 @@ fn cubicas() {
         print!("{sum}\t");
     }
     println!("\n\npaso 3:");
-    // println!("{}a + {}b + c + {n}d = {}", sums[3], sums[2], sums[1]);
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[4], sums[3], sums[2], sums[0], sums[7]
-    // );
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[5], sums[4], sums[3], sums[2], sums[8]
-    // );
-    // println!(
-    //     "{}a + {}b + {}c + {}d = {}",
-    //     sums[6], sums[5], sums[4], sums[3], sums[9]
-    // );
     let mut s = SistemaDeEcuaciones::new(4);
     s.fill(
         vec![
@@ -124,5 +114,6 @@ fn cubicas() {
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
     s.show();
+    println!("\npaso 4:");
     s.gauss_seidel();
 }
