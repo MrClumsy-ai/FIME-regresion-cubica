@@ -1,5 +1,7 @@
 fn main() {
-    cubicas();
+    let x: Vec<f64> = vec![-2.0, -1.0, 0.0, 1.0, 2.0];
+    let y: Vec<f64> = vec![3.0, 0.0, 2.0, 4.0, 4.0];
+    cubicas(x, y);
 }
 
 struct SistemaDeEcuaciones {
@@ -108,9 +110,7 @@ impl SistemaDeEcuaciones {
     }
 }
 
-fn cubicas() {
-    let x: Vec<f64> = vec![-2.0, -1.0, 0.0, 1.0, 2.0];
-    let y: Vec<f64> = vec![3.0, 0.0, 2.0, 4.0, 4.0];
+fn cubicas(x: Vec<f64>, y: Vec<f64>) -> Vec<f64> {
     if x.len() != y.len() {
         panic!("the length of x and y are different!");
     }
@@ -184,4 +184,5 @@ fn cubicas() {
         "y = {}x^3 + {}x^2 + {}x + {}",
         results[0], results[1], results[2], results[3]
     );
+    results
 }
