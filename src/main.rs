@@ -104,10 +104,15 @@ impl SistemaDeEcuaciones {
             }
             prev_equations = self.equations.clone();
             prev_equalities = self.equalities.clone();
-            println!("\niteracion: {i}\npivote: {pivote}");
+            println!("\niteracion: {i}\npivote: {pivote}\nnext pivote: {next_pivote}");
             pivote = next_pivote;
             self.show();
         }
+        let mut results: Vec<f64> = Vec::new();
+        for i in 0..self.size {
+            results.push(self.equalities[i] / pivote)
+        }
+        println!("{:?}", results);
     }
 
     fn organize(&mut self) {
@@ -122,6 +127,7 @@ impl SistemaDeEcuaciones {
                 }
                 if self.equations[j][i] != 0.0 {
                     self.equations.swap(j, i);
+                    self.equalities.swap(j, i);
                     break;
                 }
             }
@@ -173,13 +179,14 @@ fn cubicas() {
     let mut s = SistemaDeEcuaciones::new(4);
     s.fill(
         vec![
-            vec![sums[3], sums[2], 1.0, n as f64],
+            vec![sums[3], sums[2], sums[0], n as f64],
             vec![sums[4], sums[3], sums[2], sums[0]],
             vec![sums[5], sums[4], sums[3], sums[2]],
             vec![sums[6], sums[5], sums[4], sums[3]],
         ],
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
+    s.show();
     println!("\npaso 4:");
     s.organize();
     s.show();
