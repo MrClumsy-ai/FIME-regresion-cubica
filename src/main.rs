@@ -198,7 +198,7 @@ fn cubicas() {
         println!("{} = {result}", char_arr[i]);
     }
     println!(
-        "\ny = {:.5}x^3 + {:.5}x^2 + {:.5}x + {:.5}",
+        "\ny = {}x^3 + {}x^2 + {}x + {}",
         results[0], results[1], results[2], results[3]
     );
 }
