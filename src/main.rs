@@ -41,16 +41,13 @@ impl SistemaDeEcuaciones {
         }
     }
 
-    fn montante(&mut self) {
+    fn montante(&mut self) -> Vec<f64> {
         self.organize();
         let mut pivote = 1.0;
         let mut prev_equations = self.equations.clone();
         let mut prev_equalities = self.equalities.clone();
         for i in 0..self.size {
-            // println!("\niteration: {i}");
-            println!();
             let next_pivote = self.equations[i][i];
-            // println!("next pivote {i}, {i}: {}", next_pivote);
             for row in 0..self.size {
                 for column in 0..self.size + 1 {
                     // skips itself
@@ -76,14 +73,14 @@ impl SistemaDeEcuaciones {
                         self.equalities[row] = (prev_equations[i][i] * prev_equalities[row]
                             - prev_equations[row][i] * prev_equalities[i])
                             / pivote;
-                        println!(
-                            "{row}, {column}: ({} * {} - {} * {}) / {}",
-                            prev_equations[i][i],
-                            prev_equalities[row],
-                            prev_equations[row][i],
-                            prev_equalities[i],
-                            pivote
-                        );
+                        // println!(
+                        //     "{row}, {column}: ({} * {} - {} * {}) / {}",
+                        //     prev_equations[i][i],
+                        //     prev_equalities[row],
+                        //     prev_equations[row][i],
+                        //     prev_equalities[i],
+                        //     pivote
+                        // );
                     }
                     //equations
                     else {
@@ -91,20 +88,20 @@ impl SistemaDeEcuaciones {
                             * prev_equations[row][column]
                             - prev_equations[row][i] * prev_equations[i][column])
                             / pivote;
-                        println!(
-                            "{row}, {column}: ({} * {} - {} * {}) / {}",
-                            prev_equations[i][i],
-                            prev_equations[row][column],
-                            prev_equations[row][i],
-                            prev_equations[i][column],
-                            pivote
-                        );
+                        // println!(
+                        //     "{row}, {column}: ({} * {} - {} * {}) / {}",
+                        //     prev_equations[i][i],
+                        //     prev_equations[row][column],
+                        //     prev_equations[row][i],
+                        //     prev_equations[i][column],
+                        //     pivote
+                        // );
                     }
                 }
             }
             prev_equations = self.equations.clone();
             prev_equalities = self.equalities.clone();
-            println!("\niteracion: {i}\npivote: {pivote}\nnext pivote: {next_pivote}");
+            println!("\niteracion: {i}\npivote: {pivote}");
             pivote = next_pivote;
             self.show();
         }
@@ -112,7 +109,7 @@ impl SistemaDeEcuaciones {
         for i in 0..self.size {
             results.push(self.equalities[i] / pivote)
         }
-        println!("{:?}", results);
+        results
     }
 
     fn organize(&mut self) {
@@ -190,5 +187,18 @@ fn cubicas() {
     println!("\npaso 4:");
     s.organize();
     s.show();
-    s.montante();
+    println!();
+    let results = s.montante();
+    let char_arr = [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+        's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    ];
+    println!();
+    for (i, result) in results.iter().enumerate() {
+        println!("{} = {result}", char_arr[i]);
+    }
+    println!(
+        "\ny = {:.5}x^3 + {:.5}x^2 + {:.5}x + {:.5}",
+        results[0], results[1], results[2], results[3]
+    );
 }
