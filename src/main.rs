@@ -35,9 +35,12 @@ impl SistemaDeEcuaciones {
         ];
         for i in 0..self.size {
             for j in 0..self.size {
-                print!("{}{} + ", self.equations[i][j], char_arr[j % 26]);
+                print!("{}{}", self.equations[i][j], char_arr[j % 26]);
+                if j < self.size - 1 {
+                    print!(" + ");
+                }
             }
-            println!("{}", self.equalities[i]);
+            println!(" = {}", self.equalities[i]);
         }
     }
 
@@ -141,7 +144,7 @@ fn cubicas() {
     let n = x.len();
     let mut results: Vec<Vec<f64>> = Vec::new();
     let mut sums: Vec<f64> = vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-    println!("paso 1:");
+    println!("############################PASO 1:############################");
     println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
     println!("------------------------------------------------------------------------------");
     for i in 0..n {
@@ -167,12 +170,12 @@ fn cubicas() {
         }
         println!();
     }
-    println!("\npaso 2:");
+    println!("\n############################PASO 2:############################");
     println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
     for sum in &sums {
         print!("{sum}\t");
     }
-    println!("\n\npaso 3:");
+    println!("\n\n############################PASO 3:############################");
     let mut s = SistemaDeEcuaciones::new(4);
     s.fill(
         vec![
@@ -184,10 +187,9 @@ fn cubicas() {
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
     s.show();
-    println!("\npaso 4:");
+    println!("\n############################PASO 4:############################");
     s.organize();
     s.show();
-    println!();
     let results = s.montante();
     let char_arr = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
