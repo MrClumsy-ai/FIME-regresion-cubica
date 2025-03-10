@@ -47,35 +47,66 @@ impl SistemaDeEcuaciones {
         let mut prev_equations = self.equations.clone();
         let mut prev_equalities = self.equalities.clone();
         for i in 0..self.size {
-            println!("\niteration: {i}");
+            // println!("\niteration: {i}");
+            println!();
             let next_pivote = self.equations[i][i];
-            println!("next pivote 49: {}", next_pivote);
-            for column in 0..self.size + 1 {
-                for row in 0..self.size {
+            // println!("next pivote {i}, {i}: {}", next_pivote);
+            for row in 0..self.size {
+                for column in 0..self.size + 1 {
                     // skips itself
-                    if column == row && column == i {
+                    if row == column && row == i {
                         continue;
                     }
                     // every item in the same column as the pivote, set to 0
                     // and skip the operations
-                    else if column == i {
-                        println!("setting to 0: {:?}", self.equations[column][row]);
-                        self.equations[column][row] = 0.0;
+                    if column < self.size && column == i {
+                        self.equations[row][column] = 0.0;
+                        continue;
+                    }
+                    // leave row intact
+                    if row == i {
                         continue;
                     }
                     // equalities
                     if column == self.size {
-                        println!("equality {:?}", self.equalities[row]);
+                        // also leave this row intact
+                        if row == i {
+                            continue;
+                        }
+                        self.equalities[row] = (prev_equations[i][i] * prev_equalities[row]
+                            - prev_equations[row][i] * prev_equalities[i])
+                            / pivote;
+                        println!(
+                            "{row}, {column}: ({} * {} - {} * {}) / {}",
+                            prev_equations[i][i],
+                            prev_equalities[row],
+                            prev_equations[row][i],
+                            prev_equalities[i],
+                            pivote
+                        );
                     }
                     //equations
                     else {
-                        println!("equation: {:?}", self.equations[column][row]);
+                        self.equations[row][column] = (prev_equations[i][i]
+                            * prev_equations[row][column]
+                            - prev_equations[row][i] * prev_equations[i][column])
+                            / pivote;
+                        println!(
+                            "{row}, {column}: ({} * {} - {} * {}) / {}",
+                            prev_equations[i][i],
+                            prev_equations[row][column],
+                            prev_equations[row][i],
+                            prev_equations[i][column],
+                            pivote
+                        );
                     }
                 }
             }
-            self.equations = prev_equations.clone();
-            self.equalities = prev_equalities.clone();
+            prev_equations = self.equations.clone();
+            prev_equalities = self.equalities.clone();
+            println!("\niteracion: {i}\npivote: {pivote}");
             pivote = next_pivote;
+            self.show();
         }
     }
 
