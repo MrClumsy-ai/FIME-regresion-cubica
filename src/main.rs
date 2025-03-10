@@ -46,66 +46,39 @@ impl SistemaDeEcuaciones {
 
     fn montante(&mut self) -> Vec<f64> {
         self.organize();
+        self.show();
         let mut pivote = 1.0;
-        let mut prev_equations = self.equations.clone();
-        let mut prev_equalities = self.equalities.clone();
         for i in 0..self.size {
-            let next_pivote = self.equations[i][i];
+            let prev_equations = self.equations.clone();
+            let prev_equalities = self.equalities.clone();
             for row in 0..self.size {
                 for column in 0..self.size + 1 {
-                    // skips itself
-                    if row == column && row == i {
+                    // skips the row of the iteration
+                    if row == column && row == i || row == i {
                         continue;
                     }
                     // every item in the same column as the pivote, set to 0
-                    // and skip the operations
-                    if column < self.size && column == i {
+                    if column == i {
                         self.equations[row][column] = 0.0;
                         continue;
                     }
-                    // leave row intact
-                    if row == i {
-                        continue;
-                    }
-                    // equalities
-                    if column == self.size {
-                        // also leave this row intact
-                        if row == i {
-                            continue;
-                        }
-                        self.equalities[row] = (prev_equations[i][i] * prev_equalities[row]
-                            - prev_equations[row][i] * prev_equalities[i])
-                            / pivote;
-                        // println!(
-                        //     "{row}, {column}: ({} * {} - {} * {}) / {}",
-                        //     prev_equations[i][i],
-                        //     prev_equalities[row],
-                        //     prev_equations[row][i],
-                        //     prev_equalities[i],
-                        //     pivote
-                        // );
-                    }
-                    //equations
-                    else {
+                    // equations
+                    if column < self.size {
                         self.equations[row][column] = (prev_equations[i][i]
                             * prev_equations[row][column]
                             - prev_equations[row][i] * prev_equations[i][column])
                             / pivote;
-                        // println!(
-                        //     "{row}, {column}: ({} * {} - {} * {}) / {}",
-                        //     prev_equations[i][i],
-                        //     prev_equations[row][column],
-                        //     prev_equations[row][i],
-                        //     prev_equations[i][column],
-                        //     pivote
-                        // );
+                    }
+                    // equalities
+                    else {
+                        self.equalities[row] = (prev_equations[i][i] * prev_equalities[row]
+                            - prev_equations[row][i] * prev_equalities[i])
+                            / pivote;
                     }
                 }
             }
-            prev_equations = self.equations.clone();
-            prev_equalities = self.equalities.clone();
-            println!("\niteracion: {i}\npivote: {pivote}");
-            pivote = next_pivote;
+            println!("\niteracion: {}\npivote: {pivote}", i + 1);
+            pivote = self.equations[i][i];
             self.show();
         }
         let mut results: Vec<f64> = Vec::new();
@@ -142,11 +115,17 @@ fn cubicas() {
         panic!("the length of x and y are different!");
     }
     let n = x.len();
+
+    println!("############################ PASO 0 ############################");
+    println!("\nx\ty\n----------");
+    for (i, _) in x.iter().enumerate() {
+        println!("{}\t{}", x[i], y[i]);
+    }
+
+    println!("\n############################ PASO 1 ############################");
+    println!("\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y\n------------------------------------------------------------------------------");
     let mut results: Vec<Vec<f64>> = Vec::new();
     let mut sums: Vec<f64> = vec![0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-    println!("############################PASO 1:############################");
-    println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
-    println!("------------------------------------------------------------------------------");
     for i in 0..n {
         results.push(Vec::new());
         sums[0] += x[i];
@@ -163,19 +142,20 @@ fn cubicas() {
                 5 => x[i] * y[i],
                 6 => x[i].powi(2) * y[i],
                 7 => x[i].powi(3) * y[i],
-                _ => panic!("ERRORRRRRRR!!!!"),
+                _ => panic!("how did we get here?"),
             });
             sums[j + 2] += results[i][j];
             print!("{}\t", results[i][j]);
         }
         println!();
     }
-    println!("\n############################PASO 2:############################");
-    println!("x\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
+
+    println!("\n############################ PASO 2 ############################\n\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
     for sum in &sums {
         print!("{sum}\t");
     }
-    println!("\n\n############################PASO 3:############################");
+
+    println!("\n\n############################ PASO 3 ############################\n");
     let mut s = SistemaDeEcuaciones::new(4);
     s.fill(
         vec![
@@ -187,9 +167,8 @@ fn cubicas() {
         vec![sums[1], sums[7], sums[8], sums[9]],
     );
     s.show();
-    println!("\n############################PASO 4:############################");
-    s.organize();
-    s.show();
+
+    println!("\n############################ PASO 4 ############################\n");
     let results = s.montante();
     let char_arr = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -199,8 +178,10 @@ fn cubicas() {
     for (i, result) in results.iter().enumerate() {
         println!("{} = {result}", char_arr[i]);
     }
+
+    println!("\n############################ PASO 5 ############################\n");
     println!(
-        "\ny = {}x^3 + {}x^2 + {}x + {}",
+        "y = {}x^3 + {}x^2 + {}x + {}",
         results[0], results[1], results[2], results[3]
     );
 }
