@@ -123,7 +123,9 @@ fn cubicas(x: Vec<f64>, y: Vec<f64>) -> Vec<f64> {
     }
 
     println!("\n############################ PASO 1 ############################");
-    println!("\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y\n------------------------------------------------------------------------------");
+    println!(
+        "\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y\n------------------------------------------------------------------------------"
+    );
     let mut results: Vec<Vec<f64>> = Vec::new();
     let mut sums: Vec<f64> = vec![0.0; 10];
     for i in 0..n {
@@ -150,7 +152,9 @@ fn cubicas(x: Vec<f64>, y: Vec<f64>) -> Vec<f64> {
         println!();
     }
 
-    println!("\n############################ PASO 2 ############################\n\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y");
+    println!(
+        "\n############################ PASO 2 ############################\n\nx\ty\tx2\tx3\tx4\tx5\tx6\txy\tx2y\tx3y"
+    );
     for sum in &sums {
         print!("{sum}\t");
     }
